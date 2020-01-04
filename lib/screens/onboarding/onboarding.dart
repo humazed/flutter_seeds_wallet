@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
 
 import 'create_account.dart';
-import 'onboarding_method_choice.dart';
 import 'helpers.dart';
+import 'onboarding_method_choice.dart';
 
 class Onboarding extends StatelessWidget {
   final List<PageViewModel> featurePages = [
@@ -34,25 +33,23 @@ class Onboarding extends StatelessWidget {
   Widget build(BuildContext context) {
     return Builder(
       builder: (context) => SafeArea(
-              child: IntroViewsFlutter(
+        child: IntroViewsFlutter(
           featurePages,
           key: new UniqueKey(),
           onTapDoneButton: () async {
-            if (isDebugMode() && debugInviteSecret != "") {
+            if (isDebugMode() && debugInviteSecret?.isNotEmpty == true) {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   builder: (context) => CreateAccount(debugInviteSecret),
                 ),
               );
-
-              return;
+            } else {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => OnboardingMethodChoice(),
+                ),
+              );
             }
-
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => OnboardingMethodChoice(),
-              ),
-            );
           },
           doneButtonPersist: true,
           doneText: Text(
